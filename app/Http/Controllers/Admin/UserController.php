@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -12,8 +13,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $students = User::where('role', 'student')->paginate(10);
+        return view('admin.users.index', compact('students'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,10 +37,11 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return view('admin.users.show', compact('user'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -61,5 +65,21 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function search(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required|integer',
+        ]);
+
+        $student = User::where('role', 'student')
+            ->where('id', $request->student_id)
+            ->first();
+
+        if (!$student) {
+            return redirect()->back()->with('error', 'No student found with this ID');
+        }
+
+        return redirect()->route('admin.users.show', $student->id);
     }
 }
