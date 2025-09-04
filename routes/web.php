@@ -6,6 +6,14 @@ use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 
+use App\Http\Controllers\Admin\BookController as AdminBookController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+
+use App\Http\Controllers\Student\BookController as StudentBookController;
+use App\Http\Controllers\Student\ProfileController as StudentProfileController;
+use App\Http\Controllers\BorrowController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -30,5 +38,25 @@ Route::middleware(['auth'])->group(function () {
         Route::get('students/search', [AdminUserController::class, 'search'])->name('students.search');
     });
 });
+
+
+Route::middleware(['auth', 'isStudent'])->prefix('student')->name('student.')->group(function () {
+    // Dashboard + Profile
+    Route::get('dashboard', [StudentProfileController::class, 'dashboard'])->name('dashboard');
+    Route::get('profile', [StudentProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile/update', [StudentProfileController::class, 'update'])->name('profile.update');
+    Route::delete('profile/delete', [StudentProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Books
+    Route::get('books', [StudentBookController::class, 'index'])->name('books.index');
+    Route::get('books/{id}', [StudentBookController::class, 'show'])->name('books.show');
+
+    // Borrow
+    Route::get('my-borrows', [BorrowController::class, 'index'])->name('borrows.index');
+    Route::post('borrow/{book_id}', [BorrowController::class, 'borrow'])->name('borrow.book');
+    Route::post('return/{book_id}', [BorrowController::class, 'returnBook'])->name('return.book');
+    Route::get('borrowed-books', [BorrowController::class, 'allBorrowedBooks'])->name('borrows.all');
+});
+
 
 require __DIR__.'/auth.php';
