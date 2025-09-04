@@ -2,9 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\BookController as AdminBookController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 
 use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -40,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::middleware(['auth', 'isStudent'])->prefix('student')->name('student.')->group(function () {
+Route::middleware(['auth', 'isStudent'])->prefix('student')->group(function () {
     // Dashboard + Profile
     Route::get('dashboard', [StudentProfileController::class, 'dashboard'])->name('dashboard');
     Route::get('profile', [StudentProfileController::class, 'edit'])->name('profile.edit');
