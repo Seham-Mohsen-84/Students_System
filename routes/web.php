@@ -39,10 +39,10 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'isStudent'])->prefix('student')->group(function () {
     // Dashboard + Profile
-    Route::get('dashboard', [StudentProfileController::class, 'dashboard'])->name('dashboard');
-    Route::get('profile', [StudentProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('profile/update', [StudentProfileController::class, 'update'])->name('profile.update');
-    Route::delete('profile/delete', [StudentProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('dashboard', [StudentProfileController::class, 'dashboard'])->name('student.dashboard');
+    Route::get('profile', [StudentProfileController::class, 'edit'])->name('student.profile.edit');
+    Route::patch('profile/update', [StudentProfileController::class, 'update'])->name('student.profile.update');
+    Route::delete('profile/delete', [StudentProfileController::class, 'destroy'])->name('student.profile.destroy');
 
     // Books
     Route::get('books', [StudentBookController::class, 'index'])->name('books.index');

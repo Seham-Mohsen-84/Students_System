@@ -38,7 +38,7 @@
             <div class="collapse navbar-collapse justify-content-center">
                 <ul class="navbar-nav">
                     @auth
-                        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('student.dashboard') }}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('borrows.index') }}">My Borrows</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('books.index') }}">Books</a></li>
                         <li class="nav-item">
@@ -55,7 +55,7 @@
 
             <div class="d-flex align-items-center">
                 @auth
-                    <a href="{{ route('profile.edit') }}" class="username">👤 {{ Auth::user()->name }}</a>
+                    <a href="{{ route('student.profile.edit') }}" class="username">👤 {{ Auth::user()->name }}</a>
                     <form action="{{ route('logout') }}" method="POST" class="ms-2">
                         @csrf
                         <button class="btn btn-sm btn-danger" type="submit">Logout</button>
